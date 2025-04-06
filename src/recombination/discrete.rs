@@ -58,7 +58,7 @@ where
             // for each value in the genotype
             for locus in 0..genome_length {
                 // pick the value of a randomly chosen parent
-                let random = rng.gen_range(0..num_parents);
+                let random = rng.random_range(0..num_parents);
                 let value = parents[random][locus].clone();
                 genome.push(value);
             }
@@ -254,7 +254,7 @@ where
             let mut p_index = num_parents;
             loop {
                 loop {
-                    let index = rng.gen_range(0..num_parents);
+                    let index = rng.random_range(0..num_parents);
                     if index != p_index {
                         p_index = index;
                         break;
