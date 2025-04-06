@@ -1,5 +1,5 @@
 use super::*;
-use chrono::Duration;
+use chrono::{Duration, TimeDelta};
 use galvanic_assert::matchers::*;
 
 #[test]
@@ -10,7 +10,7 @@ fn duration_fmt_zero() {
 #[test]
 fn duration_fmt_max() {
     assert_that!(
-        &Duration::max_value().fmt(),
+        &TimeDelta::MAX.fmt(),
         eq("15250284452w 3d 7h 12m 55s".to_string())
     );
 }
@@ -18,7 +18,7 @@ fn duration_fmt_max() {
 #[test]
 fn duration_fmt_min() {
     assert_that!(
-        &Duration::min_value().fmt(),
+        &TimeDelta::MIN.fmt(),
         eq("-15250284452w 3d 7h 12m 55s".to_string())
     );
 }

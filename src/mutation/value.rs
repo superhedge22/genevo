@@ -3,7 +3,7 @@ use crate::{
     operator::{GeneticOperator, MutationOp},
     random::{random_index, Rng},
 };
-use rand::seq::SliceRandom;
+use rand::seq::IndexedRandom;
 use std::fmt::Debug;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -92,7 +92,7 @@ where
     {
         let genome_length = genome.len();
         let num_mutations =
-            ((genome_length as f64 * mutation_rate) + rng.gen::<f64>()).floor() as usize;
+            ((genome_length as f64 * mutation_rate) + rng.random::<f64>()).floor() as usize;
         let mut mutated = genome;
         for _ in 0..num_mutations {
             let index = random_index(rng, genome_length);
@@ -129,11 +129,11 @@ mod fixedbitset_random_genome_mutation {
         {
             let genome_length = genome.len();
             let num_mutations =
-                ((genome_length as f64 * mutation_rate) + rng.gen::<f64>()).floor() as usize;
+                ((genome_length as f64 * mutation_rate) + rng.random::<f64>()).floor() as usize;
             let mut mutated = genome;
             for _ in 0..num_mutations {
                 let bit = random_index(rng, genome_length);
-                let value = rng.gen();
+                let value = rng.random();
                 mutated.set(bit, value);
             }
             mutated
@@ -167,7 +167,7 @@ mod smallvec_random_genome_mutation {
         {
             let genome_length = genome.len();
             let num_mutations =
-                ((genome_length as f64 * mutation_rate) + rng.gen::<f64>()).floor() as usize;
+                ((genome_length as f64 * mutation_rate) + rng.random::<f64>()).floor() as usize;
             let mut mutated = genome;
             for _ in 0..num_mutations {
                 let index = random_index(rng, genome_length);
@@ -197,14 +197,14 @@ macro_rules! impl_random_value_mutation {
                 fn random_mutated<R>(_: $t, min_value: &$t, max_value: &$t, rng: &mut R) -> $t
                     where R: Rng + Sized
                 {
-                    rng.gen_range(*min_value..*max_value)
+                    rng.random_range(*min_value..*max_value)
                 }
             }
         )*
     }
 }
 
-impl_random_value_mutation!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize, f32, f64);
+impl_random_value_mutation!(u8, u16, u32, u64, usize, i8, i16, i32, i64, f32, f64);
 
 impl RandomValueMutation for bool {
     #[inline]
@@ -212,7 +212,7 @@ impl RandomValueMutation for bool {
     where
         R: Rng + Sized,
     {
-        rng.gen_bool(0.5)
+        rng.random_bool(0.5)
     }
 }
 
@@ -321,7 +321,7 @@ where
     {
         let genome_length = genome.len();
         let num_mutations =
-            ((genome_length as f64 * mutation_rate) + rng.gen::<f64>()).floor() as usize;
+            ((genome_length as f64 * mutation_rate) + rng.random::<f64>()).floor() as usize;
         let mut mutated = genome;
         for _ in 0..num_mutations {
             let index = random_index(rng, genome_length);
@@ -368,4 +368,4 @@ macro_rules! impl_breeder_mutation {
     }
 }
 
-impl_breeder_mutation!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize, f32, f64);
+impl_breeder_mutation!(u8, u16, u32, u64, usize, i8, i16, i32, i64, f32, f64);

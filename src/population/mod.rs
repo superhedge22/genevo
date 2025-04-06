@@ -101,7 +101,7 @@ use crate::{
     genetic::Genotype,
     random::{get_rng, random_seed, Prng, Rng, Seed},
 };
-use rand::distributions::uniform::SampleUniform;
+use rand::distr::uniform::SampleUniform;
 #[cfg(not(target_arch = "wasm32"))]
 use rayon;
 use std::{fmt::Debug, marker::PhantomData};
@@ -323,7 +323,7 @@ impl GenomeBuilder<Vec<bool>> for BinaryEncodedGenomeBuilder {
     where
         R: Rng + Sized,
     {
-        (0..self.genome_length).map(|_| rng.gen()).collect()
+        (0..self.genome_length).map(|_| rng.random()).collect()
     }
 }
 
@@ -363,7 +363,7 @@ where
         R: Rng + Sized,
     {
         (0..self.genome_length)
-            .map(|_| rng.gen_range(self.min_value.clone()..self.max_value.clone()))
+            .map(|_| rng.random_range(self.min_value.clone()..self.max_value.clone()))
             .collect()
     }
 }

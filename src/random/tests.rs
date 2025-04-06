@@ -144,7 +144,7 @@ mod weighted_distribution {
 
         let mut counter = vec![0, 0, 0, 0];
         for _ in 0..n_sum {
-            let random = rng.gen::<f64>() * weighted_distribution.sum();
+            let random = rng.random::<f64>() * weighted_distribution.sum();
             let index = weighted_distribution.select(random);
             counter[index] += 1;
         }
