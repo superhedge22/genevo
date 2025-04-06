@@ -190,6 +190,11 @@ where
             let mut prob_redux = 1.;
             while prob > 0. {
                 if random_probability(rng) <= prob {
+                    // Check if the tournament is empty before trying to remove
+                    if tournament.is_empty() {
+                        break; // Exit the loop if tournament is empty
+                    }
+                    
                     let picked = tournament.remove(0);
                     if self.remove_selected_individuals {
                         if let Some(position) = mating_pool.iter().position(|x| *x == picked) {
