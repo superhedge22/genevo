@@ -205,10 +205,11 @@ where
         }
         // convert selected candidate indices to parents of individuals
         let mut selected: Vec<Parents<G>> = Vec::with_capacity(num_parents_to_select);
-        while !picked_candidates.is_empty() {
+        // we create parent groups when we have enough candidates // before we panicked here: 
+        // `removal index (is 0) should be < len (is 0) ` so we need to check if the length is >= the number of individuals per parents
+        while picked_candidates.len() >= self.num_individuals_per_parents {
             let mut tuple = Vec::with_capacity(self.num_individuals_per_parents);
             for _ in 0..self.num_individuals_per_parents {
-                // index into individuals slice
                 let index_i = picked_candidates.remove(0);
                 tuple.push(individuals[index_i].clone());
             }
